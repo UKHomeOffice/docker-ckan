@@ -1,0 +1,13 @@
+sudo: required
+dist: trusty
+
+service:
+  - docker
+
+script:
+  - docker build -t homeofficeckan .
+  - sudo docker run -d --privileged=true --name solr milafrerichs/ckan_solr
+  - sudo docker run -d --privileged=true --name db ckan/postgresql
+  - sudo docker run -d --privileged=true -p 80:80 --link db:db --link solr:solr homeofficeckan
+  - sleep 10
+  - curl -o /tmp/homeofficeckan.output.html localhost
