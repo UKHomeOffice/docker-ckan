@@ -28,7 +28,8 @@ RUN git clone https://github.com/ckan/ckan.git $CKAN_HOME && \
 RUN virtualenv $CKAN_HOME && \
     ln -s $CKAN_HOME/ckan/config/who.ini $CKAN_CONFIG/who.ini && \
     pip install -r $CKAN_HOME/requirements.txt && \
-    pip install -e $CKAN_HOME/
+    pip install -e $CKAN_HOME/ && \
+    ln -s "$(which paster)" "$CKAN_HOME"/bin/paster
 
 # Cleanup
 RUN yum remove -y gcc python-devel openssl-devel postgresql-devel && \
