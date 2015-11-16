@@ -58,7 +58,8 @@ docker run quay.io/ukhomeofficedigital/ckan:$CONTAINER_VERSION bash
 
 #### Useful File Locations
 
-* `/userscripts` - All executable files in this directory will be executed before starting ckan 
+* `/userscripts` - All executable files in this directory will be executed before starting ckan
+* `/app/ckan/plugins` - All plugins placed in here will be added to ckan by running `python setup.py develop` on them
 
 ## Built With
 

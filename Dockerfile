@@ -4,6 +4,7 @@ ENV CKAN_VERSION ckan-2.4.1
 ENV HOME /root
 ENV CKAN_HOME /app/ckan
 ENV CKAN_CONFIG /etc/ckan/default
+ENV CKAN_PLUGINS $CKAN_HOME/plugins
 ENV USER_SCRIPT_DIR /userscripts
 # NB: Change Volume and Entrypoint if you change these
 ENV CKAN_DATA /var/lib/ckan
