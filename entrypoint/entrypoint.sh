@@ -8,8 +8,10 @@ if [ $# -eq 0 ] ; then
 
   shopt -s nullglob
 
-  for USER_SCRIPT in $USER_SCRIPT_DIR/*.{sh,bash} ; do
-    "${USER_SCRIPT}"
+  for USER_SCRIPT in $USER_SCRIPT_DIR/* ; do
+    if [[ -x "${USER_SCRIPT}" ]]; then
+      "${USER_SCRIPT}"
+    fi
   done
 
   shopt -u nullglob
