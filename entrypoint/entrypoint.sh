@@ -4,7 +4,6 @@ set -eu
 
 if [ $# -eq 0 ] ; then
   "${ENTRYPOINT_SCRIPT_HOME}/configure.sh"
-  "${ENTRYPOINT_SCRIPT_HOME}/initdb.sh"
 
   shopt -s nullglob
 
@@ -16,6 +15,7 @@ if [ $# -eq 0 ] ; then
 
   shopt -u nullglob
 
+  "${ENTRYPOINT_SCRIPT_HOME}/initdb.sh"
   exec httpd -D FOREGROUND
 else
   exec $@
