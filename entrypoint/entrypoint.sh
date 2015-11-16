@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
+. "${CKAN_HOME}/bin/activate"
 
 set -eu
 
 if [ $# -eq 0 ] ; then
+
   "${ENTRYPOINT_SCRIPT_HOME}/configure.sh"
 
   shopt -s nullglob
