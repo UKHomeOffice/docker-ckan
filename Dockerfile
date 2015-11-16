@@ -16,7 +16,7 @@ RUN mkdir -p $USER_SCRIPT_DIR $CKAN_HOME $HOME $ENTRYPOINT_SCRIPT_HOME $CKAN_CON
     yum clean all && \
     curl https://bootstrap.pypa.io/ez_setup.py -o - | python && \
     easy_install pip && \
-    pip install paste pastescript pyopenssl ndg-httpsclient pyasn1 virtualenv && \
+    pip install pyopenssl ndg-httpsclient pyasn1 virtualenv && \
     rm /etc/httpd/conf.d/welcome.conf
 
 # Get CKAN
@@ -26,10 +26,11 @@ RUN git clone https://github.com/ckan/ckan.git $CKAN_HOME && \
 
 # CKAN Install
 RUN virtualenv $CKAN_HOME && \
+    . $CKAN_HOME/bin/activate && \
+    $CKAN_HOME/bin/pip install pyopenssl ndg-httpsclient pyasn1 && \
     ln -s $CKAN_HOME/ckan/config/who.ini $CKAN_CONFIG/who.ini && \
-    pip install -r $CKAN_HOME/requirements.txt && \
-    pip install -e $CKAN_HOME/ && \
-    ln -s "$(which paster)" "$CKAN_HOME"/bin/paster
+    $CKAN_HOME/bin/pip install -r $CKAN_HOME/requirements.txt && \
+    $CKAN_HOME/bin/pip install -e $CKAN_HOME/
 
 # Cleanup
 RUN yum remove -y gcc python-devel openssl-devel postgresql-devel && \
