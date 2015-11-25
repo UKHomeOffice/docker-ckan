@@ -10,16 +10,16 @@ if [ $# -eq 0 ] ; then
 
   "${ENTRYPOINT_SCRIPT_HOME}/configure.sh"
 
+
   shopt -s nullglob
   for SUBDIR in ${CKAN_PLUGINS}/* ; do
     if [[ -d "${SUBDIR}" ]]; then
-      cd ${SUBDIR}
-      python "setup.py" develop
-      cd -
+      (cd "${SUBDIR}" && python "setup.py" develop)
     fi
   done
   shopt -u nullglob
 
+  (cd "${CKAN_HOME}" && python "setup.py" develop)
   "${ENTRYPOINT_SCRIPT_HOME}/initdb.sh"
 
   shopt -s nullglob
@@ -32,5 +32,5 @@ if [ $# -eq 0 ] ; then
 
   exec httpd -D FOREGROUND
 else
-  exec $@
+  exec bash -c "$@"
 fi
