@@ -1,6 +1,6 @@
 FROM quay.io/ukhomeofficedigital/centos-base
 
-ENV CKAN_VERSION ckan-2.4.1
+ENV CKAN_VERSION ckan-2.5.2
 ENV HOME /root
 ENV CKAN_HOME /app/ckan
 ENV CKAN_CONFIG /etc/ckan/default
