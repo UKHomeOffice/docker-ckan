@@ -30,6 +30,11 @@ if [ $# -eq 0 ] ; then
   done
   shopt -u nullglob
 
+if [[ -r "/etc/ckan/default/ckan.ini" ]]; then
+  paster --plugin=ckan search-index rebuild -r --config=/etc/ckan/default/ckan.ini
+fi
+  
+
   exec httpd -D FOREGROUND
 else
   exec bash -c "$@"
