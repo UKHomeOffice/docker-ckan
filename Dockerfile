@@ -1,6 +1,6 @@
 FROM quay.io/ukhomeofficedigital/centos-base
 
-ENV CKAN_VERSION ckan-2.4.1
+ENV CKAN_VERSION ckan-2.5.2
 ENV HOME /root
 ENV CKAN_HOME /app/ckan
 ENV CKAN_CONFIG /etc/ckan/default
@@ -12,8 +12,7 @@ ENV ENTRYPOINT_SCRIPT_HOME /docker
 
 # Install dependencies
 RUN mkdir -p $USER_SCRIPT_DIR $CKAN_HOME $HOME $ENTRYPOINT_SCRIPT_HOME $CKAN_CONFIG $CKAN_DATA && \
-    yum install -y httpd mod_wsgi git libffi-devel postgresql-devel && \
-    yum install -y gcc python-devel openssl-devel && \
+    (yum install -y httpd openssl mod_ssl mod_wsgi git libffi-devel postgresql-devel gcc python-devel openssl-devel || yum install -y openssl mod_ssl httpd mod_wsgi git libffi-devel postgresql-devel gcc python-devel openssl-devel) && \
     yum clean all && \
     curl https://bootstrap.pypa.io/ez_setup.py -o - | python && \
     easy_install pip && \
@@ -43,10 +42,13 @@ RUN chown -R apache:apache $CKAN_DATA
 ADD apache.conf /etc/httpd/conf.d/ckan.conf
 ADD apache.wsgi $CKAN_CONFIG/apache.wsgi
 
+RUN sed -i 's/Listen 80/Listen 5000/g' /etc/httpd/conf/httpd.conf
+
 # Setup Entrypoint Scripts
+RUN mkdir -p /etc/httpd/ssl
 ADD /entrypoint $ENTRYPOINT_SCRIPT_HOME
 
 ENTRYPOINT ["/docker/entrypoint.sh"]
 
 VOLUME ["/var/lib/ckan"]
-EXPOSE 80
+EXPOSE 8800

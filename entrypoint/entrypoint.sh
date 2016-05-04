@@ -30,6 +30,13 @@ if [ $# -eq 0 ] ; then
   done
   shopt -u nullglob
 
+#generate ssl self-signed ssl certs.
+    if [ "$(ls -A /etc/httpd/ssl/)" ]; then
+      echo 'Certificates already mounted'
+    else
+      /docker/gencert.sh ${DOMAIN:-localhost}
+    fi
+
   exec httpd -D FOREGROUND
 else
   exec bash -c "$@"
