@@ -31,7 +31,7 @@ if [ $# -eq 0 ] ; then
   shopt -u nullglob
 
 if [[ -r "/etc/ckan/default/ckan.ini" ]]; then
-  paster --plugin=ckan search-index rebuild -r --config=/etc/ckan/default/ckan.ini
+  paster --plugin=ckan search-index rebuild --config=/etc/ckan/default/ckan.ini
 fi
   
 
