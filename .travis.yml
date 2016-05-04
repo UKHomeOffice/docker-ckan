@@ -6,7 +6,7 @@ service:
 
 script:
   - docker build -t homeofficeckan .
-  - sudo docker run -d --privileged=true --name=solr milafrerichs/ckan_solr
+  - sudo docker run -d --privileged=true --name=solr quay.io/ukhomeofficedigital/ckan-solr:v0.1.0
   - sudo docker run -d --privileged=true --name=db ckan/postgresql
   - sudo docker run -d --privileged=true --name=ckan -p 5000:5000 --link db:db --link solr:solr homeofficeckan
   - sleep 10
