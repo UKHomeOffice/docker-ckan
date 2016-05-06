@@ -30,10 +30,17 @@ if [ $# -eq 0 ] ; then
   done
   shopt -u nullglob
 
-if [[ -r "/etc/ckan/default/ckan.ini" ]]; then
-  paster --plugin=ckan search-index rebuild -r --config=/etc/ckan/default/ckan.ini
-fi
-  
+#generate ssl self-signed ssl certs.
+    if [ "$(ls -A /etc/httpd/ssl/)" ]; then
+      echo 'Certificates already mounted'
+    else
+      /docker/gencert.sh ${DOMAIN:-localhost}
+    fi
+
+    if [[ -r "/etc/ckan/default/ckan.ini" ]]; then
+      paster --plugin=ckan search-index rebuild -r --config=/etc/ckan/default/ckan.ini
+    fi
+
 
   exec httpd -D FOREGROUND
 else
