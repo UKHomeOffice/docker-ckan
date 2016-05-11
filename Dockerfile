@@ -9,6 +9,8 @@ ENV USER_SCRIPT_DIR /userscripts
 # NB: Change Volume and Entrypoint if you change these
 ENV CKAN_DATA /var/lib/ckan
 ENV ENTRYPOINT_SCRIPT_HOME /docker
+ENV SSL_CERT /etc/httpd/ssl/ckan.crt
+ENV SSL_KEY /etc/httpd/ssl/ckan.key
 
 # Install dependencies
 RUN mkdir -p $USER_SCRIPT_DIR $CKAN_HOME $HOME $ENTRYPOINT_SCRIPT_HOME $CKAN_CONFIG $CKAN_DATA && \
