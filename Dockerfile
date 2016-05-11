@@ -44,7 +44,8 @@ RUN chown -R apache:apache $CKAN_DATA
 ADD apache.conf /etc/httpd/conf.d/ckan.conf
 ADD apache.wsgi $CKAN_CONFIG/apache.wsgi
 
-RUN sed -i 's/Listen 80/Listen 5000/g' /etc/httpd/conf/httpd.conf
+#Set https only and move port to 5000
+RUN sed -i 's/Listen 80/Listen 5000 https/g' /etc/httpd/conf/httpd.conf && rm -rf /etc/httpd/conf.d/ssl.conf
 
 # Setup Entrypoint Scripts
 RUN mkdir -p /etc/httpd/ssl
@@ -53,4 +54,4 @@ ADD /entrypoint $ENTRYPOINT_SCRIPT_HOME
 ENTRYPOINT ["/docker/entrypoint.sh"]
 
 VOLUME ["/var/lib/ckan"]
-EXPOSE 8800
+EXPOSE 5000
