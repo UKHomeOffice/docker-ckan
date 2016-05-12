@@ -45,7 +45,7 @@ ADD apache.conf /etc/httpd/conf.d/ckan.conf
 ADD apache.wsgi $CKAN_CONFIG/apache.wsgi
 
 #Set https only and move port to 5000
-RUN sed -i 's/Listen 80/Listen 5000 https/g' /etc/httpd/conf/httpd.conf && rm -rf /etc/httpd/conf.d/ssl.conf
+RUN sed -i 's/Listen 80/Listen 5000/g' /etc/httpd/conf/httpd.conf && rm -rf /etc/httpd/conf.d/ssl.conf
 
 # Setup Entrypoint Scripts
 RUN mkdir -p /etc/httpd/ssl
