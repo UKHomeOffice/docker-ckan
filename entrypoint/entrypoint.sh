@@ -46,8 +46,7 @@ if [ $# -eq 0 ] ; then
 if [ -z ${DB_CREDS+x} ]; then
   echo "DB_CREDS is unset, skipping";
 else
-  . /docker/db_creds.sh
-  env | grep DB
+  source /docker/db_creds.sh
 fi
 
   exec httpd -D FOREGROUND
