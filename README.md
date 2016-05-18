@@ -71,6 +71,8 @@ docker run quay.io/ukhomeofficedigital/ckan:$CONTAINER_VERSION bash
 
 * `DOMAIN` - Domain for ckan to run under, defaults to `localhost`
 
+* `DB_CREDS` - Path to file where username and password are stored (useful for vault_sidekick)
+
 #### Volumes
 
 * `/var/lib/ckan` - CKAN Data Directory
