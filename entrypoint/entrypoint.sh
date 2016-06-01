@@ -41,6 +41,13 @@ if [ $# -eq 0 ] ; then
       paster --plugin=ckan search-index rebuild -r --config=/etc/ckan/default/ckan.ini
     fi
 
+#get db creds from file if they exist
+
+if [ -z ${DB_CREDS+x} ]; then
+  echo "DB_CREDS is unset, skipping";
+else
+  source /docker/db_creds.sh
+fi
 
   exec httpd -D FOREGROUND
 else
