@@ -10,7 +10,7 @@ script:
   - sudo docker run -d --privileged=true --name=db ckan/postgresql
 
   - sudo docker run -d --privileged=true --name=ckan -p 5000:5000 --link db:db --link solr:solr homeofficeckan
-  - sleep 20
+  - sleep 60
   - curl -k -o /tmp/homeofficeckan.output.html https://localhost:5000
 
 after_failure:
