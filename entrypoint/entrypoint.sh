@@ -37,9 +37,6 @@ if [ $# -eq 0 ] ; then
       /docker/gencert.sh ${DOMAIN:-localhost}
     fi
 
-    if [[ -r "/etc/ckan/default/ckan.ini" ]]; then
-      paster --plugin=ckan search-index rebuild -r --config=/etc/ckan/default/ckan.ini
-    fi
 
 #get db creds from file if they exist
 
