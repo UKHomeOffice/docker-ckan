@@ -31,15 +31,16 @@ if [ $# -eq 0 ] ; then
   shopt -u nullglob
 
 #generate ssl self-signed ssl certs.
-if [${SSL} == true]; then
+
+if [ ${SSL:-false} == 'true' ]; then
   sed -i '/^#.*SSL/s/^#//' apache.conf
     if [ "$(ls -A /etc/httpd/ssl/)" ]; then
       echo 'Certificates already mounted'
     else
       /docker/gencert.sh ${DOMAIN:-localhost}
     fi
-  else
-    echo "SSL not set skipping"
+else
+  echo "SSL not set to true skipping"
 fi
 
     if [[ -r "/etc/ckan/default/ckan.ini" ]]; then
