@@ -8,6 +8,14 @@ set -eu
   BASIC_AUTH=${BASIC_AUTH:-/etc/secrets/basic_auth}
 if [ $# -eq 0 ] ; then
 
+  if [ -f ${BASIC_AUTH} ]; then
+    source /docker/basic_auth.sh
+    echo "Basic Auth is set up into variables" 
+  else
+    echo "BASIC_AUTH is not set skipping"
+  fi
+    
+
   "${ENTRYPOINT_SCRIPT_HOME}/configure.sh"
 
 
@@ -46,13 +54,6 @@ fi
     if [[ -r "/etc/ckan/default/ckan.ini" ]]; then
       paster --plugin=ckan search-index rebuild -r --config=/etc/ckan/default/ckan.ini
     fi
-if [ -f ${BASIC_AUTH} ]; then
-  source /docker/basic_auth.sh
-  echo "Basic Auth is set up into variables" 
-else
-  echo "BASIC_AUTH is not set skipping"
-fi
-  
 
 #get db creds from file if they exist
 
