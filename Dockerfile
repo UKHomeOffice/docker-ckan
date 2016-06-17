@@ -38,6 +38,7 @@ RUN virtualenv $CKAN_HOME && \
     $CKAN_HOME/bin/pip install -r $CKAN_HOME/requirements.txt && \
     $CKAN_HOME/bin/pip install -e $CKAN_HOME/
 
+
 # Cleanup
 RUN yum remove -y gcc python-devel openssl-devel postgresql-devel && \
     yum clean all
@@ -47,6 +48,9 @@ RUN yum remove -y gcc python-devel openssl-devel postgresql-devel && \
 RUN chown -R apache:apache $CKAN_DATA
 ADD apache.conf /etc/httpd/conf.d/ckan.conf
 ADD apache.wsgi $CKAN_CONFIG/apache.wsgi
+
+#add HO overrides
+ADD uploader.py /app/ckan/ckan/lib/uploader.py
 
 #Set https only and move port to 5000
 RUN sed -i 's/Listen 80/Listen 5000/g' /etc/httpd/conf/httpd.conf && rm -rf /etc/httpd/conf.d/ssl.conf
