@@ -24,10 +24,10 @@ _max_image_size = None
 #Home office method start
 
 def scan_file(fileLocation):
-    print("Sending file for scan")
+    print("Sending file for virus scan")
     print(fileLocation)
     clamav_url = config.get(
-        'ckan.datacatalogue.clamav.url', 'https://clamav.platform-services.svc.cluster.local/')
+        'ckan.datacatalogue.clamav.url', 'https://clamav.platform-services.svc.cluster.local/scan')
     try:
         r = requests.post(clamav_url, files={fileLocation: open(fileLocation, 'rb')}, verify=False)
     except:
@@ -37,7 +37,6 @@ def scan_file(fileLocation):
 
     if(r.status_code == 200):
         answer = r.content[18:].strip()
-        print("The answer is ")
         print(answer)
         return answer == 'true'
     else:
