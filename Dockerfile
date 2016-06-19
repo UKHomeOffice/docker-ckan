@@ -50,8 +50,9 @@ ADD apache.conf /etc/httpd/conf.d/ckan.conf
 ADD apache.wsgi $CKAN_CONFIG/apache.wsgi
 
 #add HO overrides
-ADD uploader.py /app/ckan/ckan/lib/uploader.py
-ADD package.py /app/ckan/ckan/controllers/package.py
+#ADD uploader.py /app/ckan/ckan/lib/uploader.py
+#ADD package.py /app/ckan/ckan/controllers/package.py
+
 ADD environment.py /app/ckan/ckan/config/environment.py
 
 #Set https only and move port to 5000
