@@ -30,6 +30,13 @@ WORKDIR $CKAN_HOME
 RUN git clone https://github.com/ckan/ckan.git $CKAN_HOME && \
     git checkout $CKAN_VERSION
 
+#add HO overrides
+#ADD uploader.py /app/ckan/ckan/lib/uploader.py
+#ADD package.py /app/ckan/ckan/controllers/package.py
+
+ADD environment.py /app/ckan/ckan/config/environment.py
+
+
 # CKAN Install
 RUN virtualenv $CKAN_HOME && \
     . $CKAN_HOME/bin/activate && \
@@ -49,11 +56,6 @@ RUN chown -R apache:apache $CKAN_DATA
 ADD apache.conf /etc/httpd/conf.d/ckan.conf
 ADD apache.wsgi $CKAN_CONFIG/apache.wsgi
 
-#add HO overrides
-#ADD uploader.py /app/ckan/ckan/lib/uploader.py
-#ADD package.py /app/ckan/ckan/controllers/package.py
-
-ADD environment.py /app/ckan/ckan/config/environment.py
 
 #Set https only and move port to 5000
 RUN sed -i 's/Listen 80/Listen 5000/g' /etc/httpd/conf/httpd.conf && rm -rf /etc/httpd/conf.d/ssl.conf
