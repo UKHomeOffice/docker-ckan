@@ -34,7 +34,7 @@ RUN git clone https://github.com/ckan/ckan.git $CKAN_HOME && \
 #ADD uploader.py /app/ckan/ckan/lib/uploader.py
 #ADD package.py /app/ckan/ckan/controllers/package.py
 
-#ADD environment.py /app/ckan/ckan/config/environment.py
+ADD environment.py /app/ckan/ckan/config/environment.py
 
 
 # CKAN Install
