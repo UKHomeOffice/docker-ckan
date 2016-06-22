@@ -30,15 +30,6 @@ WORKDIR $CKAN_HOME
 RUN git clone https://github.com/ckan/ckan.git $CKAN_HOME && \
     git checkout $CKAN_VERSION
 
-#add HO overrides
-#Has clamav and s3 upload code
-ADD uploader.py /app/ckan/ckan/lib/uploader.py
-#Has error for virus checker code
-ADD package.py /app/ckan/ckan/controllers/package.py
-#Has read in env vars code
-ADD environment.py /app/ckan/ckan/config/environment.py
-#Has download from s3 code
-ADD fileapp.py /app/ckan/lib/python2.7/site-packages/paste/fileapp.py
 
 # CKAN Install
 RUN virtualenv $CKAN_HOME && \
