@@ -12,6 +12,8 @@ import ckan.plugins as plugins
 #Home office import start
 from ofs import get_impl
 import requests
+import boto
+from boto.s3.key import Key
 #Home office import end
 
 config = pylons.config
@@ -47,6 +49,29 @@ class VirusFileError(Exception):
         self.value = value
     def __str__(self):
         return repr(self.value)
+
+#Home office method start
+def move_file_into_store(tmpFile, filepath):
+    ofs_impl = config.get('ofs.impl')
+    if(ofs_impl != 's3'):
+        #then treat it as local storage
+        os.rename(tmpFile, filepath)
+    else:
+        kw = {}
+        kw['aws_access_key_id'] = config['ofs.s3.aws_access_key_id']
+        kw['aws_secret_access_key'] = config['ofs.s3.aws_secret_access_key']
+        ofs = get_impl('s3')(**kw)
+
+        BUCKET = config['ofs.s3.bucket']
+        ofs.put_stream(BUCKET, filepath, open(tmpFile, 'r'))
+
+        conn = boto.connect_s3(config['ofs.s3.aws_access_key_id'],  config['ofs.s3.aws_secret_access_key'])
+        bucket = conn.get_bucket(config['ofs.s3.bucket'])
+        k = Key(bucket)
+        k.key = filepath
+        k.set_contents_from_filename(tmpFile, encrypt_key=True)
+        
+#Home office method end
         
 #Home office method end
 
@@ -204,12 +229,15 @@ class Upload(object):
             output_file.close()
 
             #Home office addition start
-            fileOK = scan_file(tmp_filepath)
+            fileOK = scan_file(self.tmp_filepath)
             if(not fileOK):
-                raise VirusFileError("The file " + tmp_filepath + " has tested positive for a virus")
+                log.warn("The file " + self.tmp_filepath + " has tested positive for a virus")
+                raise VirusFileError("The file " + self.tmp_filepath + " has tested positive for a virus")
+            move_file_into_store(self.tmp_filepath, self.filepath)
+            #os.rename(self.tmp_filepath, self.filepath)
             #Home office addition end
 
-            os.rename(self.tmp_filepath, self.filepath)
+            
 
             self.clear = True
 
@@ -311,10 +339,13 @@ class ResourceUpload(object):
             #Home office addition start            
             fileOK = scan_file(tmp_filepath)
             if(not fileOK):
+                log.warn("The file " + tmp_filepath + " has tested positive for a virus")
                 raise VirusFileError("The file " + tmp_filepath + " has tested positive for a virus")
+            move_file_into_store(tmp_filepath, filepath)
+            #os.rename(tmp_filepath, filepath)
             #Home office addition end
 
-            os.rename(tmp_filepath, filepath)
+            
             return
 
         # The resource form only sets self.clear (via the input clear_upload)
