@@ -26,20 +26,20 @@ _max_image_size = None
 #Home office method start
 
 def scan_file(fileLocation):
-    print("Sending file for virus scan")
-    print(fileLocation)
+    log.info("Sending file for virus scan")
+    log.info(fileLocation)
+
     clamav_url = config.get(
         'ckan.datacatalogue.clamav.url', 'https://clamav.platform-services.svc.cluster.local/scan')
     try:
+        #TODO the verify=False needs to be configurable
         r = requests.post(clamav_url, files={fileLocation: open(fileLocation, 'rb')}, verify=False)
-    except:
-        print "Unexpected error:", sys.exc_info()[0]
-        raise
-        
+    except, e:
+        log.error("Unexpected error when scanning file for virus",e)
+        raise       
 
     if(r.status_code == 200):
         answer = r.content[18:].strip()
-        print(answer)
         return answer == 'true'
     else:
         return False 
@@ -50,29 +50,21 @@ class VirusFileError(Exception):
     def __str__(self):
         return repr(self.value)
 
-#Home office method start
 def move_file_into_store(tmpFile, filepath):
     ofs_impl = config.get('ofs.impl')
     if(ofs_impl != 's3'):
         #then treat it as local storage
         os.rename(tmpFile, filepath)
     else:
-        kw = {}
-        kw['aws_access_key_id'] = config['ofs.s3.aws_access_key_id']
-        kw['aws_secret_access_key'] = config['ofs.s3.aws_secret_access_key']
-        ofs = get_impl('s3')(**kw)
+        aws_access_key_id = config['ofs.s3.aws_access_key_id']
+        aws_secret_access_key = config['ofs.s3.aws_secret_access_key']
+        ofs_s3_bucket = config['ofs.s3.bucket']
 
-        BUCKET = config['ofs.s3.bucket']
-        ofs.put_stream(BUCKET, filepath, open(tmpFile, 'r'))
-
-        conn = boto.connect_s3(config['ofs.s3.aws_access_key_id'],  config['ofs.s3.aws_secret_access_key'])
-        bucket = conn.get_bucket(config['ofs.s3.bucket'])
+        conn = boto.connect_s3(aws_access_key_id,  aws_secret_access_key)
+        bucket = conn.get_bucket(ofs_s3_bucket)
         k = Key(bucket)
         k.key = filepath
-        k.set_contents_from_filename(tmpFile, encrypt_key=True)
-        
-#Home office method end
-        
+        k.set_contents_from_filename(tmpFile, encrypt_key=True)    
 #Home office method end
 
 

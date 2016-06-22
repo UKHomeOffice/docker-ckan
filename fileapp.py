@@ -25,7 +25,8 @@ BLOCK_SIZE = 4096 * 16
 __all__ = ['DataApp', 'FileApp', 'DirectoryApp', 'ArchiveStore']
 
 def isLocalFile(filename):
-    return self.filename.startswith('/usr/lib')
+    return filename.startswith('/usr/lib')
+#    return filename.startswith('/home/chris/Dev') or filename.startswith('/usr/lib')
 
 class DataApp(object):
     """
@@ -211,7 +212,7 @@ class FileApp(DataApp):
             LAST_MODIFIED.update(self.headers, time=self.last_modified)
 
     def get(self, environ, start_response):
-        is_head = environ['REQUEST_METHOD'].upper() == 'HEAD'       
+        is_head = environ['REQUEST_METHOD'].upper() == 'HEAD'   
         #Home Office Edit start
         if(isLocalFile(self.filename)):
             if 'max-age=0' in CACHE_CONTROL(environ).lower():
