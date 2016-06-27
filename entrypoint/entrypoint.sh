@@ -63,6 +63,12 @@ else
   source /docker/db_creds.sh
 fi
 
+if [ -z ${S3_CREDS+x} ]; then
+  echo "DB_CREDS is unset, skipping";
+else
+  source /docker/s3_creds.sh
+fi
+
   exec httpd -D FOREGROUND
 else
   exec bash -c "$@"
