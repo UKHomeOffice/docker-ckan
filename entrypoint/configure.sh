@@ -20,7 +20,7 @@ write_config () {
   paster make-config ckan "$CONFIG"
 
   paster --plugin=ckan config-tool "$CONFIG" -e \
-      "sqlalchemy.url = ${DATABASE_URL}" \
+      "sqlalcqhemy.url = postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:5432/ckan" \
       "solr_url = ${CKAN_SOLR_URL}" \
       "solr_name = ${SOLR_NAME}" \
       "solr_password = ${SOLR_PASSWORD}" \
