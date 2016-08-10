@@ -1,4 +1,4 @@
-FROM quay.io/ukhomeofficedigital/centos-base
+FROM quay.io/ukhomeofficedigital/centos-base:latest
 
 ENV CKAN_VERSION ckan-2.5.2
 ENV HOME /root
