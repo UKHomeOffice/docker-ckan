@@ -22,6 +22,8 @@ write_config () {
   paster --plugin=ckan config-tool "$CONFIG" -e \
       "sqlalchemy.url = ${DATABASE_URL}" \
       "solr_url = ${CKAN_SOLR_URL}" \
+      "solr_name = ${SOLR_NAME}" \
+      "solr_password = ${SOLR_PASSWORD}" \
       "ckan.storage_path = /var/lib/ckan" \
       "email_to = disabled@example.com" \
       "error_email_from = ckan@$(hostname -f)" \

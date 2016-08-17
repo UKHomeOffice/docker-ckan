@@ -15,7 +15,6 @@ ENV SSL_KEY /etc/httpd/ssl/ckan.key
 ENV CKAN_SOLR_URL http://solr:/8983
 ENV SOLR_USER solr
 ENV SOLR_PASSWORD pass
-ENV SOLR_URL http://solr:8983
 
 # Install dependencies
 RUN mkdir -p $USER_SCRIPT_DIR $CKAN_HOME $HOME $ENTRYPOINT_SCRIPT_HOME $CKAN_CONFIG $CKAN_DATA && \
