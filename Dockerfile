@@ -15,7 +15,6 @@ ENV SSL_KEY /etc/httpd/ssl/ckan.key
 ENV CKAN_SOLR_URL http://solr:/8983
 ENV SOLR_USER solr
 ENV SOLR_PASSWORD pass
-ENV DATABASE_URL postgresql://ckan:ckan@db:5432/ckan
 ENV SOLR_URL http://solr:8983
 
 # Install dependencies
