@@ -13,10 +13,10 @@ ENV SSL_CERT /etc/httpd/ssl/ckan.crt
 ENV SSL_KEY /etc/httpd/ssl/ckan.key
 # Default values to get through travis
 ENV CKAN_SOLR_URL http://solr:/8983
-ENV SOLR_URL http://solr:/8983
 ENV SOLR_USER solr
 ENV SOLR_PASSWORD pass
 ENV DATABASE_URL postgresql://ckan:ckan@db:5432/ckan
+ENV SOLR_URL http://solr:8983
 
 # Install dependencies
 RUN mkdir -p $USER_SCRIPT_DIR $CKAN_HOME $HOME $ENTRYPOINT_SCRIPT_HOME $CKAN_CONFIG $CKAN_DATA && \
