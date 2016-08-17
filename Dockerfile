@@ -37,6 +37,8 @@ RUN virtualenv $CKAN_HOME && \
     $CKAN_HOME/bin/pip install pyopenssl ndg-httpsclient pyasn1 && \
     ln -s $CKAN_HOME/ckan/config/who.ini $CKAN_CONFIG/who.ini && \
     $CKAN_HOME/bin/pip install -r $CKAN_HOME/requirements.txt && \
+    $CKAN_HOME/bin/pip uninstall -y html5lib && \
+    $CKAN_HOME/bin/pip install html5lib==0.9999999 && \
     $CKAN_HOME/bin/pip install -e $CKAN_HOME/
 
 
