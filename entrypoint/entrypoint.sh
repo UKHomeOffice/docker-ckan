@@ -14,12 +14,19 @@ if [ $# -eq 0 ] ; then
   else
     echo "BASIC_AUTH is not set skipping"
   fi
-
+  #get db creds from file if they exist
   if [ -z ${DB_CREDS+x} ]; then
     echo "DB_CREDS is unset, skipping";
   else
     source /docker/db_creds.sh
   fi
+
+  if [ -z ${S3_CREDS+x} ]; then
+    echo "S3_CREDS is unset, skipping";
+  else
+    source /docker/s3_creds.sh
+  fi
+
 
 
   "${ENTRYPOINT_SCRIPT_HOME}/configure.sh"
@@ -61,14 +68,9 @@ fi
       paster --plugin=ckan search-index rebuild -r --config=/etc/ckan/default/ckan.ini
     fi
 
-#get db creds from file if they exist
 
 
-if [ -z ${S3_CREDS+x} ]; then
-  echo "S3_CREDS is unset, skipping";
-else
-  source /docker/s3_creds.sh
-fi
+
 
   exec httpd -D FOREGROUND
 else
