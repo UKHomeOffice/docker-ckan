@@ -18,7 +18,7 @@ ENV SOLR_PASSWORD pass
 
 # Install dependencies
 RUN mkdir -p $USER_SCRIPT_DIR $CKAN_HOME $HOME $ENTRYPOINT_SCRIPT_HOME $CKAN_CONFIG $CKAN_DATA && \
-    (yum install -y httpd openssl mod_ssl mod_wsgi git libffi-devel postgresql-devel gcc python-devel openssl-devel || yum install -y openssl mod_ssl httpd mod_wsgi git libffi-devel postgresql-devel gcc python-devel openssl-devel) && \
+    (yum install -y httpd openssl-1.1.0 mod_ssl mod_wsgi git libffi-devel postgresql-devel gcc python-devel openssl-devel || yum install -y openssl mod_ssl httpd mod_wsgi git libffi-devel postgresql-devel gcc python-devel openssl-devel) && \
     yum clean all && \
     curl https://bootstrap.pypa.io/ez_setup.py -o - | python && \
     easy_install pip && \
